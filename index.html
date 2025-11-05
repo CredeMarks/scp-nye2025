@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>An Evening with SC&P — NYE on Sydney Harbour</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:wght@400;700&family=Work+Sans:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      /* Late-60s cocktail palette */
+      --ink:#111013;
+      --paper:#f8f4ec;
+      --card:#fffdf7;
+      --brand:#c9a33b;     /* brass/gold */
+      --accent:#196e72;    /* teal glass */
+      --accent-2:#b04e2d;  /* vermilion */
+      --plum:#3a2032;      /* deep wine */
+      --line:#e6decc;
+      --shadow:0 24px 80px rgba(25,18,14,.12);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Work Sans",system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color:var(--ink);
+      background: radial-gradient(1500px 700px at 75% -10%, #efe3c2 0%, #eadcb5 18%, #eadcb5 22%, #efe6cf 33%, var(--paper) 60%) fixed no-repeat,
+                  linear-gradient(180deg,#fff8ea, #f7f2e6);
+    }
+
+    a{color:#0e5b7a;text-decoration:underline;text-underline-offset:2px}
+    .wrap{max-width:1120px;margin:0 auto;padding:24px}
+
+    /* Header/Hero */
+    .hero{
+      position:relative; overflow:hidden; border-radius:18px;
+      background:linear-gradient(180deg,#fffefb 0%,#faf6ee 100%);
+      border:1px solid var(--line); box-shadow:var(--shadow); padding:28px;
+    }
+    .hero-inner{display:grid;grid-template-columns:1.15fr .85fr;gap:28px;align-items:center}
+    @media (max-width:980px){.hero-inner{grid-template-columns:1fr}}
+
+    .badge{
+      display:inline-flex; align-items:center; gap:10px; padding:8px 12px;
+      border:1px solid var(--line); border-radius:999px; font-size:12px; letter-spacing:.08em;
+      background:#fffdf8; text-transform:uppercase; color:#574c38;
+    }
+
+    h1{
+      margin:10px 0 6px;
+      font-family:"Libre Baskerville",serif; font-weight:700; line-height:1.05;
+      font-size:clamp(34px,5.2vw,64px);
+    }
+    .strap{
+      font-size:clamp(16px,1.6vw,20px);
+      color:#5a5346;
+    }
+
+    .cta-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+    .btn{
+      appearance:none; border:0; border-radius:12px; padding:12px 16px; font-weight:700; cursor:pointer;
+      box-shadow:var(--shadow);
+    }
+    .btn-primary{background:linear-gradient(135deg,var(--brand),#e8c863); color:#1b140b}
+    .btn-ghost{background:#fff; border:1px solid var(--line); color:#3b3427}
+
+    /* “Skyline” canvas band */
+    .scene{position:absolute; inset:0; pointer-events:none}
+    #sky{position:absolute; inset:0; width:100%; height:100%}
+    .water{position:absolute; left:0; right:0; bottom:0; height:28%;
+           background:linear-gradient(180deg, rgba(9,54,74,.14), rgba(9,14,25,0)); filter:blur(2px)}
+
+    /* Card grid */
+    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:22px;margin-top:26px}
+    .card{
+      grid-column:span 6; background:var(--card); border-radius:16px; border:1px solid var(--line);
+      box-shadow:var(--shadow); padding:22px;
+    }
+    .card h2{
+      margin:0 0 8px; font-family:"Libre Baskerville",serif; color:#3a2f1c;
+    }
+    @media (max-width:980px){.card{grid-column:span 12}}
+
+    .meta{color:#6a604b;font-size:14px;margin-bottom:10px}
+    .list{margin:0;padding-left:20px} .list li{margin:6px 0}
+
+    /* Roger Letter (typewriter card) */
+    .roger{
+      font-family:"Special Elite", monospace;
+      background:
+        radial-gradient(160px 80px at 30px 28px, rgba(0,0,0,.04), transparent 60%),
+        var(--card);
+      position:relative;
+    }
+    .roger:before{
+      content:"S C & P  —  INTERNAL MEMO";
+      position:absolute; top:14px; right:16px;
+      font:700 11px "Work Sans",system-ui; letter-spacing:.14em; color:#8a7c62;
+    }
+
+    /* RSVP form */
+    .form label{display:block;font-weight:600;margin:8px 0 6px}
+    .form input, .form select, .form textarea{
+      width:100%; padding:10px 12px; border-radius:10px; border:1px solid var(--line);
+      background:#fffdfa; font-family:inherit
+    }
+    .form .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:720px){.form .row{grid-template-columns:1fr}}
+
+    /* Gallery (image links) */
+    .gallery-grid{
+      display:grid; grid-template-columns:repeat(12,1fr); gap:12px;
+    }
+    .shot{grid-column:span 4; aspect-ratio:4/3; background:#eee; border-radius:10px; overflow:hidden; border:1px solid var(--line); position:relative}
+    .shot img{width:100%; height:100%; object-fit:cover}
+    .shot span{position:absolute; inset:auto 8px 8px 8px; background:rgba(255,255,255,.82); padding:6px 8px; border-radius:8px; font-size:12px}
+    @media (max-width:980px){.shot{grid-column:span 6}} @media (max-width:620px){.shot{grid-column:span 12}}
+
+    /* Tile Studio */
+    .tile{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;align-items:start}
+    @media (max-width:980px){.tile{grid-template-columns:1fr}}
+    .tile-preview{border-radius:16px; background:linear-gradient(180deg,#111015,#0a0a0e); padding:14px; border:1px solid #1e1c24}
+    .tile-preview canvas{width:100%; height:auto; border-radius:12px}
+
+    /* Footer */
+    footer{margin:34px 0 60px; text-align:center; color:#877a60}
+  </style>
+
+  <!-- Mapbox (replace token below) -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v3.6.0/mapbox-gl.js"></script>
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1/mapbox-gl-geocoder.css" />
+  <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.1/mapbox-gl-geocoder.min.js"></script>
+</head>
+<body>
+  <div class="wrap">
+
+    <!-- HERO -->
+    <section class="hero" aria-labelledby="t1">
+      <div class="scene" aria-hidden="true">
+        <canvas id="sky"></canvas>
+        <div class="water"></div>
+      </div>
+
+      <div class="hero-inner">
+        <div>
+          <span class="badge">Sterling Cooper & Partners • Sydney Office</span>
+          <h1 id="t1">An Evening with SC&amp;P</h1>
+          <p class="strap">Ring in <strong>2026</strong> on Sydney Harbour — when Madison Avenue is freezing, we prefer our ice in a glass.</p>
+
+          <div class="cta-row">
+            <button class="btn btn-primary" onclick="document.getElementById('rsvp').scrollIntoView({behavior:'smooth'})">RSVP</button>
+            <button class="btn btn-ghost" onclick="window.print()">Print Invite</button>
+          </div>
+        </div>
+
+        <aside>
+          <div class="card">
+            <h2>Key Details</h2>
+            <ul class="list">
+              <li><strong>Date:</strong> Wednesday, <em>31 December</em></li>
+              <li><strong>Time:</strong> From <em>6:30 PM</em></li>
+              <li><strong>Theme:</strong> Late-Season <em>Mad Men</em> (’68–’70)</li>
+              <li><strong>Location:</strong> 19 Waruda Street, Kirribilli</li>
+              <li><strong>Fireworks:</strong> <em>9:00 PM & 12:00 AM</em></li>
+              <li><strong>Security:</strong> CBD checkpoints; collection may be required. Building door security on the night.</li>
+            </ul>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- GRID -->
+    <section class="grid">
+
+      <!-- Roger Letter -->
+      <article class="card roger printable" aria-labelledby="r1">
+        <h2 id="r1">An Evening with SC&amp;P</h2>
+        <p>Sterling Cooper &amp; Partners cordially invites its most <em>discerning</em> clients to ring in the New Year on Sydney Harbour — because when the rest of Madison Avenue is freezing, we prefer our ice in a glass.</p>
+        <p>Sydney may not have the snowdrifts of New York, but don’t let the sunshine fool you. For the gentlemen: suits, ties, and the faint whiff of money. A sports coat will do in a pinch, but if you arrive in a pastel polo, I’m afraid you’ll have to bring your own dignity. Facial hair is permitted, provided it looks… intentional.</p>
+        <p>For the ladies: the higher the hair, the closer to God — and the richer the husband you’ll find. Heels are optional, but martinis are not.</p>
+        <p>Due to an unfortunate “occupancy restriction” (a phrase you’ll never hear at a Sterling party), the soirée will be limited to top-tier clientele. If this upsets anyone, please direct all complaints to Peggy, as it’s her apartment. Rest assured: whatever Ms. Olsen lacks in square footage, she’ll make up for in charm — and in accomodating your significant, or insignificant, other, depending on your moral outlook this season.</p>
+        <p>Should you be unable to attend, kindly inform us at once so we may extend your invitation to someone with fewer scruples and better taste.</p>
+        <p>— <strong>R. STERLING</strong></p>
+      </article>
+
+<!-- SCHEDULE: Accordion Style -->
+<article class="card" aria-labelledby="sched">
+  <h2 id="sched">Programme</h2>
+  <ul class="list schedule">
+    <li>
+      <button class="toggle"><strong>6:30 PM</strong> — Cocktails & Hors D'oeuvres</button>
+      <div class="details">Signature cocktails and canapés to start the evening in style.</div>
+    </li>
+    <li>
+      <button class="toggle"><strong>8:00 PM</strong> — SC&P Taboo</button>
+      <div class="details">The classic word-guessing party game, SC&P-style, with custom cards and designs, courtesy of our in-house Creative team.</div>
+    </li>
+    <li>
+      <button class="toggle"><strong>9:00 PM</strong> — Fireworks and Champagne</button>
+      <div class="details">The first Sydney Harbour fireworks display and a civil champagne pour.</div>
+    </li>
+    <li>
+      <button class="toggle"><strong>9:30 PM</strong> — Esther Perel’s "Where Do We Begin?"</button>
+      <div class="details">Esther Perel conversation cardgame, "Where Do We Begin?" -- guests receive a card with a prompt (for a story or anecdote), and share theirs with the group.</div>
+    </li>
+    <li>
+      <button class="toggle"><strong>11:00 PM</strong> — Champagne Tower Pour</button>
+      <div class="details">Classic cascade — just stand clear of Roger’s aim.</div>
+    </li>
+    <li>
+      <button class="toggle"><strong>11:45 PM</strong> — SC&P’s Countdown to 2026</button>
+      <div class="details">The agency’s official countdown with broadcast feed and toast.</div>
+    </li>
+    <li>
+      <button class="toggle"><strong>12:00 AM</strong> — Midnight Fireworks</button>
+      <div class="details">Sydney’s main show — visible directly across the Harbour. Grab a spot on the patio, or watch the broadcast live from inside. Be warned, as fantastic are the fireworks are, this is *truly* ground zero and can 
+      be overwhelming for some individuals.</div>
+    </li>
+    <li>
+      <button class="toggle"><strong>12:15 AM</strong> — SC&P’s Dessert Cart</button>
+      <div class="details">Petit fours, chocolate truffles, and espresso martinis.</div>
+    </li>
+    <li>
+      <button class="toggle"><strong>1:00 AM</strong> — Smoker’s Lounge</button>
+      <div class="details">Wind down with cigars and music while the streets clear.</div>
+    </li>
+  </ul>
+</article>
+
+<!-- Accordion Script -->
+<script>
+document.querySelectorAll('.schedule .toggle').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const li = btn.closest('li');
+    const open = li.classList.toggle('open');
+    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+});
+</script>
+
+<!-- Accordion Styles -->
+<style>
+.schedule .toggle {
+  all: unset;
+  cursor: pointer;
+  display: block;
+  width: 100%;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  padding: 6px 0;
+  position: relative;
+  transition: color .2s ease;
+}
+.schedule .toggle::after {
+  content: "▼";
+  position: absolute;
+  right: 0;
+  transform: rotate(0deg);
+  transition: transform .2s ease, opacity .2s ease;
+  opacity: .8;
+}
+.schedule li.open .toggle::after { transform: rotate(-180deg); opacity: 1; }
+.schedule .details {
+  display: none;
+  margin: 6px 0 12px;
+  color: rgba(0,0,0,.75);
+  font-size: .95em;
+}
+.schedule li.open .details { display: block; }
+.schedule li {
+  border-bottom: 1px solid rgba(0,0,0,.08);
+  padding-bottom: 6px;
+  margin-bottom: 6px;
+}
+</style>
+
+
+<!-- RSVP -->
+      <article id="rsvp" class="card" aria-labelledby="rsvpTitle">
+        <h2 id="rsvpTitle">RSVP</h2>
+        <div class="meta">Please RSVP by <strong>December 15</strong> so we can register you with security.</div>
+        <form class="form" onsubmit="handleRSVP(event)">
+          <div class="row">
+            <div>
+              <label for="name">Full Name (as on ID)</label>
+              <input id="name" required placeholder="Bert Cooper" />
+            </div>
+            <div>
+              <label for="plus">Guest</label>
+              <input id="plus" placeholder="Roger Sterling" />
+            </div>
+          </div>
+          <div class="row">
+            <div>
+              <label for="contact">Phone Number</label>
+              <input id="contact" placeholder="Enter" />
+            </div>
+            <div>
+              <label for="arrival">Arrival Window</label>
+              <select id="arrival">
+                <option value="6:30–7:30">6:30–7:30 PM</option>
+                <option value="7:30–8:30">7:30–8:30 PM</option>
+                <option value="8:30–9:30">8:30–9:30 PM</option>
+                <option value="After 9:30">After 9:30 PM (message for pickup)</option>
+              </select>
+            </div>
+          </div>
+          <label for="notes">Dietaries / Notes</label>
+          <textarea id="notes" rows="3" placeholder="Vegan; allergic to seafood; etc."></textarea>
+          <div style="display:flex;gap:10px;align-items:center;margin-top:12px">
+            <button class="btn btn-primary" type="submit">Send RSVP</button>
+            <button class="btn btn-ghost" type="button" onclick="downloadICS()">Add to Calendar (.ics)</button>
+          </div>
+          <p class="meta" id="rsvpStatus" style="margin-top:10px"></p>
+        </form>
+      </article>
+
+      <!-- Access & Map -->
+      <article class="card" aria-labelledby="acx">
+        <h2 id="acx">Access &amp; Map</h2>
+        <p class="meta">Expect road closures and pedestrian diversions around Circular Quay and the CBD. If stopped at a police checkpoint, call or text for collection.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div style="border:1px dashed var(--line);border-radius:12px;padding:14px;background:#fff">
+            <h3 style="margin:0 0 6px">Getting Here</h3>
+            <ul class="list">
+              <li><strong>Train:</strong> Milsons Point</li>
+              <li><strong>Metro:</strong> Victoria Cross</li>
+              <li><strong>Ferry:</strong> Milsons Point or Kirribilli</li>
+              <li><strong>Rideshare:</strong> Set drop-off outside closures; we can meet you</li>
+            </ul>
+          </div>
+          <div>
+            <div id="vipMap" style="width:100%;height:320px;border-radius:12px;overflow:hidden;border:1px solid var(--line)"></div>
+            <p class="meta" style="margin-top:8px">If the map doesn’t load:
+              <a href="https://www.google.com/maps/search/?api=1&query=19+Waruda+St+Kirribilli+NSW" target="_blank" rel="noopener">open in Google Maps</a>.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- Mad Men Meta (gallery accepts links) -->
+      <article class="card" aria-labelledby="mmmeta">
+        <h2 id="mmmeta">META: AMC’s <em>Mad Men</em></h2>
+        <p class="meta">Haven’t seen it? The style target is Seasons 6–7 (1967–70): bolder colors, mod silhouettes, and agency-floor glamour. Paste image links below to build a reference gallery for guests.</p>
+
+        <div class="form" style="margin-top:8px">
+          <label for="imgUrl">Add reference image URL</label>
+          <div class="row">
+            <input id="imgUrl" placeholder="https://…/peggy-olsen-party-dress.jpg">
+            <button class="btn btn-ghost" type="button" onclick="addShot()">Add</button>
+          </div>
+        </div>
+
+        <div id="gallery" class="gallery-grid" style="margin-top:12px">
+          <!-- Shots appear here -->
+        </div>
+      </article>
+
+      <!-- Tile Studio -->
+      <article class="card" aria-labelledby="tileStudio">
+        <h2 id="tileStudio">Tile Studio</h2>
+        <div class="meta">Design a promo tile with brass title and <strong>gold-foil confetti</strong>.</div>
+        <div class="tile">
+          <div>
+            <label style="font-weight:600">Title</label>
+            <input id="tileTitle" placeholder="An Evening with SC&P" oninput="drawTile()" />
+
+            <label style="font-weight:600;margin-top:10px;display:block">Caption</label>
+            <input id="tileSub" placeholder="Sterling Service • Harbour Views • Champagne" oninput="drawTile()" />
+
+            <label style="font-weight:600;margin-top:10px;display:block">Image</label>
+            <input type="file" id="tileImage" accept="image/*" onchange="loadTileImage(event)" />
+
+            <div style="display:flex;gap:10px;margin-top:14px">
+              <button class="btn btn-primary" type="button" onclick="downloadTile()">Download PNG</button>
+              <button class="btn btn-ghost" type="button" onclick="drawTile(true)">Randomise Confetti</button>
+            </div>
+          </div>
+
+          <div class="tile-preview">
+            <canvas id="tile" width="1080" height="1350" aria-label="Preview"></canvas>
+          </div>
+        </div>
+      </article>
+
+      <!-- FAQ -->
+      <article class="card" aria-labelledby="faq">
+        <h2 id="faq">Q&A / FAQ</h2>
+        <ul class="list">
+          <li><strong>May I bring undeclared guests?</strong> Unless you're planning on bringing a ladder, no -- security is in place.</li>
+          <li><strong>Checkpoint?</strong> Get us on the horn if you get stuck at a police checkpoint.</li>
+          <li><strong>Dress code?</strong> Evening attire, late-60s era: linen suits, mod minis, teased hair, sharp shoes.</li>
+          <li><strong>Food & drinks?</strong> BYO from an approved list is welcome.</li>
+          <li><strong>Dietaries?</strong> Note in RSVP.</li>
+          <li><strong>Staying over?</strong> There is one double-bed available, and the couch is also available. Floor-sleepers welcome (but don't do anything I wouldn't do.)</li>
+          <li><strong>Rain plan?</strong> Covered; fireworks televised indoors if needed.</li>
+        </ul>
+      </article>
+
+    </section>
+
+    <footer>© 2025 Cass Marks</footer>
+  </div>
+
+  <script>
+    /* ================= SKYLINE / FIREWORKS ================= */
+    const sky = document.getElementById('sky');
+    const ctx = sky.getContext('2d');
+    function resize(){ sky.width = sky.clientWidth; sky.height = sky.clientHeight; }
+    addEventListener('resize', resize, {passive:true}); resize();
+
+    const bursts=[];
+    function spawnBurst(){
+      const x = Math.random()*sky.width*0.9 + sky.width*0.05;
+      const y = Math.random()*sky.height*0.42 + sky.height*0.08;
+      const hue = Math.floor(15+Math.random()*60); // warm late-60s
+      const parts = [];
+      for(let i=0;i<70;i++){
+        const a = (i/70)*Math.PI*2;
+        const s = Math.random()*3+1.2;
+        parts.push({x, y, vx: Math.cos(a)*s, vy: Math.sin(a)*s, life: 64, hue});
+      }
+      bursts.push({parts});
+    }
+    setInterval(()=>{ if(Math.random()<0.45) spawnBurst(); }, 700);
+
+    function drawSky(){
+      ctx.clearRect(0,0,sky.width, sky.height);
+      // Stars
+      for(let i=0;i<80;i++){
+        const x=(i*97)%sky.width, y=(i*59)%(sky.height*0.6);
+        ctx.fillStyle='rgba(0,0,0,.06)'; ctx.fillRect(x,y,1,1);
+      }
+      // Bridge + Sails
+      const h=sky.height, w=sky.width;
+      ctx.fillStyle='rgba(0,0,0,.08)';
+      ctx.beginPath(); ctx.moveTo(w*0.1, h*0.75); ctx.quadraticCurveTo(w*0.5, h*0.5, w*0.9, h*0.75);
+      ctx.lineTo(w*0.9, h*0.78); ctx.quadraticCurveTo(w*0.5, h*0.53, w*0.1, h*0.78); ctx.closePath(); ctx.fill();
+      const sails=[{x:w*0.35,s:1.0},{x:w*0.40,s:0.8},{x:w*0.45,s:0.6}];
+      sails.forEach(({x,s})=>{
+        ctx.beginPath(); ctx.moveTo(x,h*0.78); ctx.quadraticCurveTo(x-40*s,h*0.6,x,h*0.62);
+        ctx.quadraticCurveTo(x+40*s,h*0.7,x,h*0.78); ctx.fill();
+      });
+
+      // Fireworks
+      bursts.forEach((b)=>{
+        b.parts.forEach(p=>{
+          p.x+=p.vx; p.y+=p.vy; p.vy+=0.02; p.life-=1;
+          ctx.fillStyle=`hsla(${p.hue}, 90%, 60%, ${Math.max(p.life/64,0)})`;
+          ctx.beginPath(); ctx.arc(p.x,p.y,1.5,0,Math.PI*2); ctx.fill();
+        });
+        b.parts=b.parts.filter(p=>p.life>0);
+      });
+      for(let i=bursts.length-1;i>=0;i--){ if(!bursts[i].parts.length) bursts.splice(i,1); }
+
+      requestAnimationFrame(drawSky);
+    }
+    drawSky();
+
+    /* ================= RSVP ================= */
+    function handleRSVP(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const plus = document.getElementById('plus').value.trim();
+      const contact = document.getElementById('contact').value.trim();
+      const arrival = document.getElementById('arrival').value;
+      const notes = document.getElementById('notes').value.trim();
+      const to = 'cass@example.com'; // TODO: replace with your address or form endpoint
+      const subject = encodeURIComponent('NYE RSVP: '+name);
+      const body = encodeURIComponent(
+        `Name: ${name}\n+1: ${plus || '-'}\nMobile: ${contact}\nArrival: ${arrival}\nNotes: ${notes}`
+      );
+      window.location.href = `mailto:${to}?subject=${subject}&body=${body}`;
+      document.getElementById('rsvpStatus').textContent = 'Opening your email app… If nothing appears, copy the details and DM us!';
+    }
+
+    function downloadICS(){
+      const ics = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//Cass//SC&P NYE//EN
+BEGIN:VEVENT
+UID:${Date.now()}@cass
+DTSTAMP:20251201T000000Z
+DTSTART:20251231T183000
+DTEND:20260101T020000
+SUMMARY:An Evening with SC&P — NYE on Sydney Harbour
+DESCRIPTION:Late-season Mad Men • Fireworks at 9pm & midnight
+LOCATION:Sydney Harbour (exact on RSVP)
+END:VEVENT
+END:VCALENDAR`;
+      const blob = new Blob([ics], {type:'text/calendar'});
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement('a'), {href:url, download:'SC&P-NYE.ics'});
+      document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    }
+
+    /* ================= GALLERY (image links) ================= */
+    const gallery = document.getElementById('gallery');
+    function addShot(){
+      const url = document.getElementById('imgUrl').value.trim();
+      if(!url) return;
+      const card = document.createElement('figure');
+      card.className = 'shot';
+      card.innerHTML = `<img alt="reference" src="${url}"><span>${new URL(url).hostname}</span>`;
+      gallery.prepend(card);
+      document.getElementById('imgUrl').value='';
+    }
+
+    /* ================= MAPBOX ================= */
+    mapboxgl.accessToken = 'YOUR_MAPBOX_ACCESS_TOKEN_HERE'; // <-- replace
+    const map = new mapboxgl.Map({
+      container: 'vipMap',
+      style: 'mapbox://styles/mapbox/light-v11',
+      center: [151.2153, -33.8568],
+      zoom: 13.5
+    });
+    map.addControl(new mapboxgl.NavigationControl({ visualizePitch:true }), 'top-right');
+
+    const geocoder = new MapboxGeocoder({
+      accessToken: mapboxgl.accessToken,
+      mapboxgl, marker:false, placeholder:'Search address',
+      proximity: { longitude:151.2153, latitude:-33.8568 }, countries:'au'
+    });
+    map.addControl(geocoder, 'top-left');
+
+    let marker;
+    geocoder.on('result', (e) => {
+      const c = e.result.center;
+      if (marker) marker.remove();
+      marker = new mapboxgl.Marker({ color: '#c9a33b' }).setLngLat(c).addTo(map);
+      map.flyTo({ center:c, zoom:16, essential:true });
+    });
+
+    geocoder.query('19 Waruda Street, Kirribilli NSW');
+    map.on('load', () => {
+      setTimeout(() => {
+        if (!marker) {
+          const approx = [151.2162, -33.8524];
+          marker = new mapboxgl.Marker({ color: '#c9a33b' }).setLngLat(approx).addTo(map);
+          map.flyTo({ center: approx, zoom: 16 });
+        }
+      }, 2500);
+    });
+  </script>
+</body>
+</html>
